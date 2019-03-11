@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+   
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Quiz</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+       
+        <script src="https://cdn.jsdelivr.net/npm/vue"></script> 
+        
+        
+</head>
+<body>
+    
+    
+    <div id="quiz">
+      
+      <div class="question-info">
+             <h1>{{heading}}</h1>
+             
+             
+             <div v-for="question in questions">
+                <p>{{question.questionId}} {{question.questionsAsk}}</p>
+                <div> 
+                 <p><input type="radio" v-model="choices[question.questionId - 1]" name=Answer value=AnswerA>{{question.questionAnswers[0]}}</p>
+                 <p><input type="radio"  v-model="choices[question.questionId - 1]"name=Answer value=AnswerB>{{question.questionAnswers[1]}}</p>
+                 <p><input type="radio" v-model="choices[question.questionId - 1]" name=Answer value=AnswerC>{{question.questionAnswers[2]}}</p>
+                 <p><input type="radio"  v-model="choices[question.questionId - 1]"name=Answer value=AnswerD>{{question.questionAnswers[3]}}</p>
+                </div>
+                <div>
+                   <button v-on:click="addToChecked" >Submit</button></div> 
+             </div>
+            
+             <div class="checked">
+                 <p>Checked({{checked}})</p>
+             </div>
+             
+          </div>
+      </div> 
+    </div>
+
+    
+    
+<script>
+    Vue.config.devtools = true;
+    const quiz = new Vue({
+    el: "#quiz",
+    data:{
+        heading: "General Knowledge Quiz",
+        choices: [],
+        
+        questions:[
+            {
+                questionId:1,
+                questionsAsk: "How many stars are there on the flag of China?",
+                questionAnswers: [2,5,7,1],
+                questionAnswer: "AnswerB",
+            },{
+                questionId:2,
+                questionsAsk: "What is the currency of Mongolia?",
+                questionAnswers: ["Yena","Kirgin","Topchok","Tugrik"],
+                questionAnswer:"AnswerD",
+                    
+            },{
+                questionId:3,
+                questionsAsk: "In which country is there a natural gas pit nicknamed the ‘Door to Hell’ that has been on fire since 1971",
+                questionAnswers: ["Turkmenistan","Azerbaijan","Bulgaria","Iceland"],
+                questionAnswer:"AnswerA",
+            }, {
+                questionId:4,
+                questionsAsk:"In 2013 which two airlines merged to become the world’s largest airline?",
+                questionAnswers: ["Air France and KLM","American Airlines and US Airways","British Airways and Iberia","Lufthansa and Germanwings"],  
+                questionAnswer:"AnswerB", 
+            }
+        ],
+        checked:0
+        },
+        methods:{
+            addToChecked: function(){
+                this.checked += 1
+            }
+        }
+    })
+</script>
+
+       
+</body>
+</html>
