@@ -2,51 +2,110 @@
 <html>
 <head>
 
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>Quiz</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="main.css">
-        <script src="https://cdn.jsdelivr.net/npm/vue"></script>
-        <link href="https://fonts.googleapis.com/css?family=ZCOOL+QingKe+HuangYou" rel="stylesheet"><link rel="stylesheet" href="style.css" >
-        <link href="https://fonts.googleapis.com/css?family=Lato|Open+Sans|Roboto&display=swap" rel="stylesheet">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Quiz</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="main.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script> 
+    <script src="main.js"></script>
 
 
 </head>
 <body>
 
-<div id="app">
-    <h1>{{quiz.title}}</h1>
-    <div v-for="(questions,index) in quiz.questions">
-        <div v-show ="index === questionsIndex">
-            <h2>{{ question.text }}</h2>
-            <ol>
-                <li v-for="response in question.responses">
-                   <label for="">
-                     <input type="radio"
-                            v-bind:value= "response.correct"
-                            v-bind:name="index"
-                            v-model="userResponses[index]">{{response.text}} 
-                   </label>
-                </li>
-            </ol>
-        <button v-if="questionsIndex > 0" v-on:click="prev">
-            prev
-        </button>  
-        <button v-on:click="next">
-            next
-        </button>
-        </div>
-    </div>
-    <div v-show="questionsIndex === quiz.questions.length">
-        <h2>
-            Quiz finished
-        </h2>
-        <p>
-            Total score: {{score()}} / {{ quiz.questions.length}}
-        </p>
-    </div>
-</div>
+        <div id="quiz">
+                <h1>{{quiz.title}}</h1>
+                <div v-for="(questions,index) in quiz.questions">
+                    <div v-show ="index === questionIndex">
+                        <h2>{{ question.text }}</h2>
+                        <ol>
+                            <li v-for="response in question.responses">
+                               <label>
+                                 <input type="radio"
+                                        v-bind:value= "response.correct"
+                                        v-bind:name="index"
+                                        v-model="userResponses[index]"> {{response.text}} 
+                               </label>
+                            </li>
+                        </ol>
+                    <button v-if="questionIndex > 0" v-on:click="prev">
+                        prev
+                    </button>  
+                    <button v-on:click="next">
+                        next
+                    </button>
+                    
+                    </div>
+                </div>
+                <div v-show="questionIndex === quiz.questions.length">
+                    <h2>
+                        Quiz finished
+                    </h2>
+                    <p>
+                        Total score: {{score()}} / {{ quiz.questions.length}}
+                    </p>
+                </div>
+            </div>
+
+
+<script>
+
+    document.ready=function(){
+
+   
     
+    var quiz = {
+        title: 'My quiz',
+        questions: [
+        {
+            text: "Question 1",
+            responses: [
+            {text: 'Wrong, too bad.'},
+            {text: 'Right!', correct: true},
+            ]
+        }, {
+            text: "Question 2",
+            responses: [
+            {text: 'Right answer', correct: true},
+            {text: 'Wrong answer'},
+            ]
+        }
+        ]
+    };
+
+    new Vue ({
+        el: '#app',
+        data: {
+        quiz: quiz,
+        questionIndex: 0,
+        userResponses: Array(quiz.questions.length).fill(false)
+        },  
+        methods: {
+            next: function(){
+                this.questionIndex++;
+            },
+            prev: function(){
+                this.questionIndex--;
+            },
+            score: function(){
+                return this.userResponses.filter(function(val) { return val }).length;   
+            }
+        }
+    });
+    }
+
+
+
+</script>
+       
+                
+                
+
+
+
+
+
+
 </body>
 </html>
