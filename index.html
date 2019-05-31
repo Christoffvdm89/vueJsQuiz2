@@ -15,174 +15,38 @@
 </head>
 <body>
 
-
-    <div id="quiz">
-
-        <div class="question-info">
-             <h1>{{heading}}</h1>
-
-             <div v-for="question in questions">
-                <p>{{question.questionId}} {{question.questionsAsk}}</p>
-                <div>
-                 <p><input type="radio" v-model="choices[question.questionId - 1]" name=Answer value=AnswerA>{{question.questionAnswers[0]}}</p>
-                 <p><input type="radio"  v-model="choices[question.questionId - 1]"name=Answer value=AnswerB>{{question.questionAnswers[1]}}</p>
-                 <p><input type="radio" v-model="choices[question.questionId - 1]" name=Answer value=AnswerC>{{question.questionAnswers[2]}}</p>
-                 <p><input type="radio"  v-model="choices[question.questionId - 1]"name=Answer value=AnswerD>{{question.questionAnswers[3]}}</p>
-                </div>
-                <div>
-                   <button v-on:click="addToChecked" >Submit Answer</button>
-                </div>
-             </div>
-             <div>
-            <br>
-            <button v-on:click="submitQuiz">Submit Quiz</button>
-
-             </div>
-
-
-
+<div id="app">
+    <h1>{{quiz.title}}</h1>
+    <div v-for="(questions,index) in quiz.questions">
+        <div v-show ="index === questionsIndex">
+            <h2>{{ question.text }}</h2>
+            <ol>
+                <li v-for="response in question.responses">
+                   <label for="">
+                     <input type="radio"
+                            v-bind:value= "response.correct"
+                            v-bind:name="index"
+                            v-model="userResponses[index]">{{response.text}} 
+                   </label>
+                </li>
+            </ol>
+        <button v-if="questionsIndex > 0" v-on:click="prev">
+            prev
+        </button>  
+        <button v-on:click="next">
+            next
+        </button>
         </div>
-      </div>
     </div>
-
-
-
-<script>
-    Vue.config.devtools = true;
-    const quiz = new Vue({
-    el: "#quiz",
-    data:{
-        heading: "General Knowledge Quiz",
-        choices: [],
-
-        questions:[
-            {
-                questionId:1,
-                questionsAsk: ". How many stars are there on the flag of China?",
-                questionAnswers: [2,5,7,1],
-                questionAnswer: "AnswerB",
-            },{
-                questionId:2.,
-                questionsAsk: ". What is the currency of Mongolia?",
-                questionAnswers: ["Yena","Kirgin","Topchok","Tugrik"],
-                questionAnswer:"AnswerD",
-
-            },{
-                questionId:3.,
-                questionsAsk: ". In which country is there a natural gas pit nicknamed the ‘Door to Hell’ that has been on fire since 1971",
-                questionAnswers: ["Turkmenistan","Azerbaijan","Bulgaria","Iceland"],
-                questionAnswer:"AnswerA",
-            }, {
-                questionId:4.,
-                questionsAsk:". In 2013 which two airlines merged to become the world’s largest airline?",
-                questionAnswers: ["Air France and KLM","American Airlines and US Airways","British Airways and Iberia","Lufthansa and Germanwings"],
-                questionAnswer:"AnswerB",
-            }, {
-                questionId:5.,
-                questionsAsk:". Jaktogos went on sale in 2013. What are they?",
-                questionAnswers: ["A hot potato snack, served with cheese and chilli, popular in Mexico","Raincoats that tourists can buy from vending machines across the London Underground","A jacket covered in pockets allowing passengers to pack everything into their coats","A fashionable take on the plastic poncho originally from Tokyo"],
-                questionAnswer:"AnswerC",
-            }, {
-                questionId:6.,
-                questionsAsk:". Which celebrity was carried by their minders along the Great Wall of China?",
-                questionAnswers: ["Lady Gaga","Justin Bieber","Harry Styles","Daniel Radcliffe"],
-                questionAnswer:"AnswerB",
-            },  {
-                questionId:7.,
-                questionsAsk:". In 1976, Saigon changed its name to …?",
-                questionAnswers: ["Ho Chi Minh City","Pattaya","Saigon City","Hanoi"],
-                questionAnswer:"AnswerA",
-            },  {
-                questionId:8.,
-                questionsAsk:". Which country has more lakes than the rest of the world combined?",
-                questionAnswers: ["Finland","China","Norway","Canada"],
-                questionAnswer:"AnswerD",
-            },  {
-                questionId:9.,
-                questionsAsk:". Which country has the world's highest waterfall?",
-                questionAnswers: ["America","Japan","Venezuela","Uganda"],
-                questionAnswer:"AnswerC",
-            },  {
-                questionId:10.,
-                questionsAsk:". Persepolis FC is a football club of which country?",
-                questionAnswers: ["Turkey","Greece","Iran","Egypt"],
-                questionAnswer:"AnswerC",
-            },  {
-                questionId:11.,
-                questionsAsk:". What year did Albert Einstein die?",
-                questionAnswers: ["1954","1949","1960","1955"],
-                questionAnswer:"AnswerD",
-            },  {
-                questionId:12.,
-                questionsAsk:". Which is the largest planet in the solar system?",
-                questionAnswers: ["Jupiter","Neptune","Eart","Mars"],
-                questionAnswer:"AnswerA",
-            },  {
-                questionId:13.,
-                questionsAsk:". How many Presidents have there been of the USA?",
-                questionAnswers: ["36","29","46","44"],
-                questionAnswer:"AnswerD",
-            },  {
-                questionId:14.,
-                questionsAsk:". What colour is Cerulean?",
-                questionAnswers: ["Red","Blue","Yellow","Green"],
-                questionAnswer:"AnswerB",
-            },  {
-                questionId:15.,
-                questionsAsk:". What are a group of Dolphins called?",
-                questionAnswers: ["School","Herd","Pod","Pool"],
-                questionAnswer:"AnswerC",
-            },  {
-                questionId:16.,
-                questionsAsk:". Who discovered Penicillin?",
-                questionAnswers: ["Alexander Fleming?","Thomas Edison","Marie Curie","George Orwell"],
-                questionAnswer:"AnswerA",
-            },  {
-                questionId:17.,
-                questionsAsk:". What date was President John F Kennedy assassinated?",
-                questionAnswers: ["November 22 1962","November 22 1963","October 29 1964","November 24 1962"],
-                questionAnswer:"AnswerB",
-            },  {
-                questionId:18.,
-                questionsAsk:". How many men have walked on the moon?",
-                questionAnswers: ["10","5","12","9"],
-                questionAnswer:"AnswerC",
-            },  {
-                questionId:19.,
-                questionsAsk:". Who has won the most Academy Awards?",
-                questionAnswers: ["James Cameron","Walt Disney","Katherine Hepburn","Steven Spielberg"],
-                questionAnswer:"AnswerB",
-            },  {
-                questionId:20.,
-                questionsAsk:". What is the currency of Brazil?",
-                questionAnswers: ["Dollar","The Bhat","Real","Krona"],  
-                questionAnswer:"AnswerC",
-            },
-
-        ],
-
-        checked:0,
-
-        },
-        methods:{
-            addToChecked:function(){
-              this.checked += 1
-            },
-            submitQuiz:function(){
-                alert(" You have "+this.checked+" correct ")
-            if (this.checked<10) {
-               alert("Not too great")
-            }if(this.checked>9 && this.checked<15){
-               alert("This is just average")
-            }if(this.checked>14){
-                alert("Well done")
-            }
-            }
-            }
-
-    })
-</script>
-
-
+    <div v-show="questionsIndex === quiz.questions.length">
+        <h2>
+            Quiz finished
+        </h2>
+        <p>
+            Total score: {{score()}} / {{ quiz.questions.length}}
+        </p>
+    </div>
+</div>
+    
 </body>
 </html>
