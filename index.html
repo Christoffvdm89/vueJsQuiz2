@@ -1,109 +1,269 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Quiz</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="main.css">
-    <script src="https://cdn.jsdelivr.net/npm/vue"></script> 
-    <script src="main.js"></script>
-
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="css/style.css">
+    <title>Document</title>
 </head>
 <body>
-
-        <div id="quiz">
-                <h1>{{quiz.title}}</h1>
-                <div v-for="(questions,index) in quiz.questions">
-                    <div v-show ="index === questionIndex">
-                        <h2>{{ question.text }}</h2>
-                        <ol>
-                            <li v-for="response in question.responses">
-                               <label>
-                                 <input type="radio"
-                                        v-bind:value= "response.correct"
-                                        v-bind:name="index"
-                                        v-model="userResponses[index]"> {{response.text}} 
-                               </label>
-                            </li>
-                        </ol>
-                    <button v-if="questionIndex > 0" v-on:click="prev">
-                        prev
-                    </button>  
-                    <button v-on:click="next">
-                        next
-                    </button>
-                    
-                    </div>
-                </div>
-                <div v-show="questionIndex === quiz.questions.length">
-                    <h2>
-                        Quiz finished
-                    </h2>
-                    <p>
-                        Total score: {{score()}} / {{ quiz.questions.length}}
-                    </p>
-                </div>
-            </div>
-
-
-<script>
-
-    document.ready=function(){
-
-   
     
-    var quiz = {
-        title: 'My quiz',
+ 
+<div id="quiz">
+  <h1>{{ quiz.title }}</h1>
+  
+  <div v-for="(question, index) in quiz.questions">
+    
+    <div v-show="index === questionIndex">
+      <h2>{{ question.text }}</h2>
+      <ol>
+        <li v-for="response in question.responses">
+          <label>
+      
+    <input type="radio" 
+    v-bind:value="response.correct" 
+    v-bind:name="index" 
+    v-model="userResponses[index]"> {{response.text}}
+          </label>
+        </li>
+      </ol>
+     
+      <button v-if="questionIndex > 0" v-on:click="prev">
+        <<
+      </button>
+      <button v-on:click="next">
+        >>
+      </button>
+    </div>
+  </div>
+  <div v-show="questionIndex === quiz.questions.length">
+    <h2>
+    Quiz finished
+  </h2>
+  <p>Total score: {{ points() }} / {{ quiz.questions.length }}</p>
+  <p v-if="points()  < 10">  Not good enough - Please try again  </p>
+  <p v-else-if="points()  >= 10 && points()  <= 15 ">  Well done - Almost there  </p>
+  <p v-else-if="points()  > 15">  Well done - Your are a star </p>
+      
+    
+  </div>
+</div>
+    
+        
+          
+          
+          <script src="https://vuejs.org/js/vue.js"></script>
+       
+          <script>
+            window.onload=function(){
+              var quiz = {
+        title: 'General Knowledge Quiz in Vue.js',
         questions: [
+          {
+            text: "1. How many stars are there on the flag of China?",
+            responses: [
+              {text: 2}, 
+              {text: 5, correct: true}, 
+              {text: 7}, 
+              {text: 1}, 
+            ]
+          }, {
+            text: "2. What is the currency of Mongolia?",
+            responses: [
+              {text: 'Yena'}, 
+              {text: 'Kirgin'}, 
+              {text: 'Topchok'}, 
+              {text: 'Tugrik',correct: true}, 
+            ]
+          },
+          {
+            text: "3. In which country is there a natural gas pit nicknamed the ‘Door to Hell’ that has been on fire since 1971",
+            responses: [
+              {text: 'Turkmenistan',correct: true}, 
+              {text: 'Azerbaijan'}, 
+              {text: 'Bulgaria'}, 
+              {text: 'Iceland'},
+            ]
+          }, {
+            text: "4. In 2013 which two airlines merged to become the world’s largest airline?",
+            responses: [
+              {text: 'Air France and KLM'}, 
+              {text: 'American Airlines and US Airways', correct: true}, 
+              {text: 'British Airways and Iberia'}, 
+              {text: 'Lufthansa and Germanwings'}, 
+            ]
+          },
+          {
+            text: "5. Jaktogos went on sale in 2013. What are they?",
+            responses: [
+              {text: 'A hot potato snack, served with cheese and chilli, popular in Mexico'}, 
+              {text: 'Raincoats that tourists can buy from vending machines across the London Underground'}, 
+              {text: 'A jacket covered in pockets allowing passengers to pack everything into their coats',correct: true}, 
+              {text: 'A fashionable take on the plastic poncho originally from Tokyo',},
+            ]
+          }, {
+            text: "6. Which celebrity was carried by their minders along the Great Wall of China?",
+            responses: [
+              {text: 'Lady Gaga'}, 
+              {text: 'Justin Bieber', correct: true}, 
+              {text: 'Harry Styles'}, 
+              {text: 'Daniel Radcliffe'},
+            ]
+          },
         {
-            text: "Question 1",
+            text: "7. In 1976, Saigon changed its name to …?",
             responses: [
-            {text: 'Wrong, too bad.'},
-            {text: 'Right!', correct: true},
+              {text: 'Ho Chi Minh City', correct: true}, 
+              {text: 'Pattaya'}, 
+              {text: 'Saigon City'}, 
+              {text: 'Hanoi'},
             ]
-        }, {
-            text: "Question 2",
+          },
+          {
+            text: "8. Which country has more lakes than the rest of the world combined?",
             responses: [
-            {text: 'Right answer', correct: true},
-            {text: 'Wrong answer'},
+              {text: 'Finland'}, 
+              {text: 'China'}, 
+              {text: 'Norway'}, 
+              {text: 'Canada', correct: true}, 
             ]
-        }
+          },
+          {
+            text: "9. Which country has the world's highest waterfall?",
+            responses: [
+              {text: 'America'}, 
+              {text: 'Japan'}, 
+              {text: 'Venezuela',correct: true}, 
+              {text: 'Uganda'}, 
+            ]
+          }, {
+            text: "10. Persepolis FC is a football club of which country?",
+            responses: [
+              {text: 'Turkey'}, 
+              {text: 'Greece'}, 
+              {text: 'Iran', correct: true}, 
+              {text: 'Egypt'}, 
+            ]
+          },
+          {
+            text: "11. What year did Albert Einstein die?",
+            responses: [
+              {text: '1954'}, 
+              {text: '1949'}, 
+              {text: '1960'}, 
+              {text: '1955', correct: true}, 
+            ]
+          }, {
+            text: "12. Which is the largest planet in the solar system?",
+            responses: [
+              {text: 'Jupiter', correct: true}, 
+              {text: 'Neptune'}, 
+              {text: 'Eart'}, 
+              {text: 'Mars'}, 
+            ]
+          },
+          {
+            text: "13. How many Presidents have there been of the USA?",
+            responses: [
+              {text: '36'}, 
+              {text: '29',},
+              {text: '46'}, 
+              {text: '44', correct: true},  
+            ]
+          }, {
+            text: "14. What colour is Cerulean?",
+            responses: [
+              {text: 'Red'}, 
+              {text: 'Blue',correct: true}, 
+              {text: 'Yellow'}, 
+              {text: 'Green'}, 
+            ]
+          },
+          {
+            text: "15. What are a group of Dolphins called?",
+            responses: [
+              {text: 'School'}, 
+              {text: 'Herd'}, 
+              {text: 'Pod', correct: true}, 
+              {text: 'Pool'},
+            ]
+          }, {
+            text: "16. Who discovered Penicillin?",
+            responses: [
+              {text: 'Alexander Fleming?', correct: true}, 
+              {text: 'Thomas Edison'}, 
+              {text: 'Marie Curie'}, 
+              {text: 'George Orwell'},
+            ]
+          },
+          {
+            text: "17. What date was President John F Kennedy assassinated?",
+            responses: [
+              {text: 'November 22 1962'}, 
+              {text: 'November 22 1963', correct: true}, 
+              {text: 'October 29 1964'}, 
+              {text: 'November 24 1962'},
+            ]
+          }, {
+            text: "18. How many men have walked on the moon?",
+            responses: [
+              {text: '10'}, 
+              {text: '5'}, 
+              {text: '12', correct: true}, 
+              {text: '9'},
+            ]
+          },
+          {
+            text: "19. Who has won the most Academy Awards?",
+            responses: [
+              {text: 'James Cameron'}, 
+              {text: 'Walt Disney', correct: true},
+              {text: 'Katherine Hepburn'}, 
+              {text: 'Steven Spielberg'}, 
+            ]
+          }, {
+            text: "20. What is the currency of Brazil?",
+            responses: [
+              {text: 'Dollar'}, 
+              {text: 'The Bhat'}, 
+              {text: 'Real', correct: true}, 
+              {text: 'Krona'}, 
+            ]
+          }
+        
         ]
-    };
+      };
+      
+      new Vue({
+        el: '#quiz',
+  data: {
+    quiz: quiz,
+    questionIndex: 0,
 
-    new Vue ({
-        el: '#app',
-        data: {
-        quiz: quiz,
-        questionIndex: 0,
-        userResponses: Array(quiz.questions.length).fill(false)
-        },  
-        methods: {
-            next: function(){
-                this.questionIndex++;
-            },
-            prev: function(){
-                this.questionIndex--;
-            },
-            score: function(){
-                return this.userResponses.filter(function(val) { return val }).length;   
-            }
-        }
-    });
+    userResponses: Array(quiz.questions.length).fill(false)
+  },
+ 
+  methods: {
+    
+    next: function() {
+      this.questionIndex++;
+    },
+   
+    prev: function() {
+      this.questionIndex--;
+    },
+    points: function() {
+      return this.userResponses.filter(function(val) { return val }).length;
     }
 
+  }
+});
+    }
+          </script>
 
-
-</script>
-       
-                
-                
-
-
-
+          
+        </body>
 
 
 

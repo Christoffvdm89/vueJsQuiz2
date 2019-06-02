@@ -1,0 +1,31 @@
+body{
+    font-family: 'Lato', sans-serif; 
+    margin: 2%;
+    background:url('../images/world68.jpg') repeat;
+    background-size: cover;
+    color:#FFE8B7;
+    
+}
+
+button{
+    color:#7D6B7D;
+    
+}
+
+
+@media(max-width: 750px){
+    body{
+        background:url('../images/world68.jpg');
+   }
+}
+
+
+
+h1{
+    font-size: 40px;
+}
+
+#image{
+    margin-right: 80%;
+}
+
